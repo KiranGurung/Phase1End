@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 public class GetAuthImpl implements GetAuthInterface {
 
 	@Override
+	// Returns the authentication so you can check details like username and auth roles
 	public Authentication getAuth() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}

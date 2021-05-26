@@ -21,13 +21,14 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	DataSource ds;
 
 	@PostConstruct
+	// Initializes the datasource for JDBCDao Support
 	private void initialize(){
 		setDataSource(ds);
 	}
 	
 	@Override
 	public void createUser(User user) {
-		// TODO Auto-generated method stub
+		// Inserts user into users table
 		String sql = "INSERT INTO users VALUES(?,?,1)";
 		getJdbcTemplate().update(sql, new Object[] {
 				user.getUsername(), user.getPassword()
@@ -36,7 +37,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
 	@Override
 	public User getUser(String userName) {
-		// TODO Auto-generated method stub
+		// Gets username and password of specific user
 		String sql = "SELECT * FROM users WHERE username=?";
 		List<User> check = getJdbcTemplate().query(sql, new Object[]{userName}, new RowMapper<User>(){
 			@Override
@@ -47,6 +48,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 				return user;
 			}
 		});
+		// If there were no users return null
 		if(check.size() == 0) {
 			return null;
 		}

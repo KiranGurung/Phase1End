@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// Model for users table, only tracks username and password
 public class User {
 	private String username;
 	private String password;

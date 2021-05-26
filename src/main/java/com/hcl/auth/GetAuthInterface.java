@@ -1,8 +1,8 @@
 package com.hcl.auth;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+// Interface for getting auth details
 public interface GetAuthInterface {
 	Authentication getAuth();
 }

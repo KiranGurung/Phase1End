@@ -21,12 +21,14 @@ public class AuthorityDAOImpl extends JdbcDaoSupport implements AuthorityDAO {
 	DataSource ds;
 
 	@PostConstruct
+	// Initializes the datasource for JDBCDao Support
 	private void initialize(){
 		setDataSource(ds);
 	}
 	
 	@Override
 	public void createAuthority(Authority auth) {
+		// Creates new authorities
 		String sql = "INSERT INTO authorities VALUES(?,?)";
 		getJdbcTemplate().update(sql, new Object[] {
 				auth.getUsername(), auth.getAuthority()
@@ -36,7 +38,7 @@ public class AuthorityDAOImpl extends JdbcDaoSupport implements AuthorityDAO {
 
 	@Override
 	public Authority getAuth(String userName) {
-		// TODO Auto-generated method stub
+		// Gets authorities of specific user
 		String sql = "SELECT * FROM authorities WHERE username=?";
 		List<Authority> check = getJdbcTemplate().query(sql, new Object[]{userName}, new RowMapper<Authority>(){
 			@Override
@@ -47,6 +49,7 @@ public class AuthorityDAOImpl extends JdbcDaoSupport implements AuthorityDAO {
 				return auth;
 			}
 		});
+		// If there were no users return null
 		if(check.size() == 0) {
 			return null;
 		}
