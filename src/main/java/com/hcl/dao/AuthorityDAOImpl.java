@@ -2,6 +2,7 @@ package com.hcl.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -40,7 +41,7 @@ public class AuthorityDAOImpl extends JdbcDaoSupport implements AuthorityDAO {
 	public Authority getAuth(String userName) {
 		// Gets authorities of specific user
 		String sql = "SELECT * FROM authorities WHERE username=?";
-		List<Authority> check = getJdbcTemplate().query(sql, new Object[]{userName}, new RowMapper<Authority>(){
+		List<Authority> check = getJdbcTemplate().query(sql, new Object[]{userName}, new int[]{Types.VARCHAR},new RowMapper<Authority>(){
 			@Override
 			public Authority mapRow(ResultSet rs, int rwNumber) throws SQLException {
 				Authority auth = new Authority();

@@ -2,6 +2,7 @@ package com.hcl.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -39,7 +40,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	public User getUser(String userName) {
 		// Gets username and password of specific user
 		String sql = "SELECT * FROM users WHERE username=?";
-		List<User> check = getJdbcTemplate().query(sql, new Object[]{userName}, new RowMapper<User>(){
+		List<User> check = getJdbcTemplate().query(sql, new Object[]{userName},new int[] {Types.VARCHAR}, new RowMapper<User>(){
 			@Override
 			public User mapRow(ResultSet rs, int rwNumber) throws SQLException {
 				User user = new User();
