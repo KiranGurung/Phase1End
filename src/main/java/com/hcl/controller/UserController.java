@@ -27,26 +27,38 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping(value="/")
-	public ModelAndView landingPage() {
+	public ModelAndView landingPage(Model model) {
 		// Create user page
+		if(authState.getAuth().getAuthorities().toString().equals("[ROLE_USER]")
+				&& authState.getAuth().isAuthenticated()) {
+			model.addAttribute("username", authState.getAuth().getName());
+		}
 		return new ModelAndView("create","user", new User());
 	}
 	
 	@GetMapping(value="/create")
-	public ModelAndView createPage() {
+	public ModelAndView createPage(Model model) {
 		// Create user page
+		if(authState.getAuth().getAuthorities().toString().equals("[ROLE_USER]")
+				&& authState.getAuth().isAuthenticated()) {
+			model.addAttribute("username", authState.getAuth().getName());
+		}
 		return new ModelAndView("create","user", new User());
 	}
 	
 	@PostMapping(value="/create")
-	public ModelAndView createUser(@ModelAttribute User user) {
+	public ModelAndView createUser(@ModelAttribute User user, Model model) {
 		// Calls the create user and gets return code
 		int createUser = userService.createUser(user);
 		// Depending on return code return correct page and possible error msg
+		if(authState.getAuth().getAuthorities().toString().equals("[ROLE_USER]")
+				&& authState.getAuth().isAuthenticated()) {
+			model.addAttribute("username", authState.getAuth().getName());
+		}
 		if(createUser == 0) {
 			System.out.println(authState.getAuth().getAuthorities());
 			// Redirects to login if create user is successful
-			return new ModelAndView("redirect:/login");
+			return new ModelAndView("redirect:/login?created");
 		}else if(createUser == 1) {
 			return new ModelAndView("create", "errorMsg", "Username is in use already!");
 		}
@@ -54,22 +66,25 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView login(Model model, String error, String logout) {
+	public ModelAndView login(Model model, String error, String logout, String created) {
 		// Checks if the user is already logged in before allowing them to view the login screen
-		if(authState.getAuth().getAuthorities().toString().equals("[ROLE_USER]")) {
+		if(authState.getAuth().getAuthorities().toString().equals("[ROLE_USER]")
+				&& authState.getAuth().isAuthenticated()) {
 			return new ModelAndView("redirect:/user");
 		}
-		// Returns login page with error msg if incorrect, if correct the Spring Security
-		// Will reroute to user page
+		// Returns login page with error msg if incorrect
+		// If correct the Spring Security will reroute to user page
 		if (error != null) {
 			model.addAttribute("errorMsg", "Your username and password are invalid.");
-			return new ModelAndView("login");
 		}
 
 		if (logout != null) {
 			model.addAttribute("msg", "You have been logged out successfully.");
-			return new ModelAndView("login");
 		}
+		if (created != null) {
+			model.addAttribute("msg", "You have successfully created an account");
+		}
+		
 		return new ModelAndView("login");
 	}
 	

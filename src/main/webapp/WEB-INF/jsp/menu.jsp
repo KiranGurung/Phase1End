@@ -1,11 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;">
- <h2 style="color: blue;">
-            <a onclick="document.forms['logoutForm'].submit()">Logout</a>
-            </h2>
+	<footer style="position:fixed; bottom: 0;">
+	Want to create an account?
+		<button onclick="document.forms['create'].submit()"
+			class="btn btn-lg btn-primary btn-block">Create</button>
+	</footer>
 
-    <form id="logoutForm" method="POST" action="${contextPath}/logout">
-    </form>
-
-</div>
+	<form id="create" method="GET" action="/create"></form>

@@ -43,7 +43,8 @@ public class SecurityController extends WebSecurityConfigurerAdapter {
 				.formLogin()
 				.loginPage("/login").permitAll()
                 .defaultSuccessUrl("/user", true)
-				.and().logout().permitAll();
+				.and().logout().permitAll()
+				.logoutSuccessUrl("/login?logout");
 		http.csrf().disable();
 	}
 }
