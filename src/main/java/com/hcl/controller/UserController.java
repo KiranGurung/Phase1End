@@ -24,7 +24,7 @@ public class UserController {
 	
 	@Autowired
 	// User service for creating user
-	UserService userService;
+	private UserService userService;
 	
 	@GetMapping(value="/")
 	public ModelAndView landingPage(Model model) {

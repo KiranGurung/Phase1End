@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
 		}
 		// Encodes the password
 		BCryptPasswordEncoder b = new BCryptPasswordEncoder();
-		// Changes user password to the encoded password
 		user.setPassword(b.encode(user.getPassword()));
 		// Then calls the DAO to create a user and its authorities
 		userDAO.createUser(user);
